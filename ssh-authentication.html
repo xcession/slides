@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>GitHub: SSH Authentication</title>
+
+    <meta name="description" content="GitHub: SSH Authentication" />
+    <meta name="author" content="Tharawut Paripaiboon" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/rev.css" id="theme" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link
+      rel="stylesheet"
+      href="./plugin/highlight/monokai.css"
+      id="highlight-theme"
+    />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 396.5 386.71"
+            style="fill: white; height: 180px;"
+          >
+            <path
+              d="M198.24,0C88.77,0,0,88.76,0,198.26A198.29,198.29,0,0,0,135.59,386.37c9.91,1.82,13.53-4.3,13.53-9.56,0-4.7-.18-17.17-.27-33.72-55.15,12-66.78-26.57-66.78-26.57-9-22.9-22-29-22-29-18-12.3,1.37-12,1.37-12,19.89,1.4,30.36,20.43,30.36,20.43,17.69,30.29,46.4,21.55,57.7,16.47,1.8-12.81,6.92-21.55,12.59-26.5-44-5-90.31-22-90.31-98,0-21.65,7.73-39.34,20.41-53.2-2-5-8.84-25.17,1.94-52.47,0,0,16.65-5.33,54.52,20.33a187.71,187.71,0,0,1,99.26,0c37.85-25.66,54.47-20.33,54.47-20.33,10.81,27.3,4,47.45,2,52.47,12.71,13.86,20.38,31.55,20.38,53.2,0,76.16-46.35,92.91-90.52,97.82,7.12,6.12,13.46,18.22,13.46,36.72,0,26.5-.24,47.88-.24,54.38,0,5.3,3.57,11.47,13.63,9.53A198.3,198.3,0,0,0,396.5,198.26C396.5,88.76,307.73,0,198.24,0Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <h1>GitHub</h1>
+          <h2>SSH Authentication</h2>
+          <p>
+            <small>
+              Created by
+              <a href="https://reverievisuals.com">Reverie Visuals</a>
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h1>Generate a new SSH key</h1>
+        </section>
+
+        <section>
+          <h2>Checking for existing SSH keys</h2>
+          <p>List the files in <code>.ssh</code> directory, if they exist:</p>
+
+          <pre><code class="shell" data-trim="">
+            $ ls -al ~/.ssh
+          </code></pre>
+
+          <p>
+            By default, the filenames of the public keys are one of the
+            following:
+          </p>
+
+          <pre><code data-trim="">
+            id_rsa.pub
+            id_ecdsa.pub
+            id_ed25519.pub
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>Generating a new SSH key</h2>
+          <p>Creating a new SSH key, using the email as a label:</p>
+
+          <pre><code class="shell" data-trim="">
+            $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+					</code></pre>
+
+          <pre><code class="shell" data-trim="">
+            > Generating public/private rsa key pair.
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>Generating a new SSH key</h2>
+          <p>Accepts the default file location:</p>
+
+          <pre><code class="shell" data-trim="">
+> Enter a file in which to save the key (/home/you/.ssh/id_rsa): [Press enter]
+          </code></pre>
+
+          <p>Then type a secure passphrase:</p>
+
+          <pre><code class="shell" data-trim="">
+            > Enter passphrase (empty for no passphrase): [Type a passphrase]
+            > Enter same passphrase again: [Type passphrase again]
+          </code></pre>
+        </section>
+
+        <section>
+          <h1>Add SSH key to the ssh-agent</h1>
+        </section>
+
+        <section>
+          <h2>The ssh-agent</h2>
+          <p>
+            By default, SSH will ask you for a passphrase when you generate your
+            key and it will use that passphrase to encrypt and decrypt your
+            private key.
+          </p>
+          <p>
+            This means you'll have to enter your passphrase every time you need
+            to use your private key. To manage this, most SSH implementations
+            will use an agent, which keeps your decrypted key in memory. This
+            means you'll only need to unlock it once, and it will persist until
+            you restart.
+          </p>
+        </section>
+
+        <section>
+          <h2>Adding SSH key to the ssh-agent</h2>
+          <p>Start the ssh-agent in the background:</p>
+
+          <pre><code class="shell" data-trim="">
+            $ eval "$(ssh-agent -s)"
+          </code></pre>
+          <pre><code class="shell" data-trim="">
+            > Agent pid 59566
+          </code></pre>
+
+          <p>
+            <small
+              ><em
+                >** On Windows, you'll have to use <strong>Git Bash</strong> to
+                run this <code>eval</code> command.</em
+              ></small
+            >
+          </p>
+        </section>
+
+        <section>
+          <h2>Adding SSH key to the ssh-agent</h2>
+          <p>Add the SSH private key to the ssh-agent:</p>
+
+          <pre><code class="shell" data-trim="">
+            $ ssh-add ~/.ssh/id_rsa
+          </code></pre>
+          <p>
+            <small
+              ><em
+                >(If you created your key with a different name, replace
+                <code>id_rsa</code> in the command with the name of your private
+                key file.)</em
+              ></small
+            >
+          </p>
+        </section>
+
+        <section>
+          <h1>Add a new SSH key to GitHub account</h1>
+        </section>
+
+        <section>
+          <section>
+            <h2>Copying the SSH key to clipboard <small>(macOS)</small></h2>
+            <p>
+              Copies the contents of the <code>id_rsa.pub</code> file to
+              clipboard:
+            </p>
+
+            <pre><code class="shell" data-trim="">
+              $ pbcopy < ~/.ssh/id_rsa.pub
+            </code></pre>
+
+            <p>
+              <small
+                ><em
+                  >If <code>pbcopy</code> isn't working, you can locate the
+                  hidden <code>.ssh</code> folder, open the file in your
+                  favorite text editor, and copy it to your clipboard.</em
+                ></small
+              >
+            </p>
+          </section>
+
+          <section>
+            <h2>Copying the SSH key to clipboard <small>(Windows)</small></h2>
+            <p>
+              Copies the contents of the <code>id_rsa.pub</code> file to
+              clipboard:
+            </p>
+
+            <pre><code class="shell" data-trim="">
+              $ clip < ~/.ssh/id_rsa.pub
+            </code></pre>
+
+            <p>
+              <small
+                ><em
+                  >If <code>clip</code> isn't working, you can locate the hidden
+                  <code>.ssh</code> folder, open the file in your favorite text
+                  editor, and copy it to your clipboard.</em
+                ></small
+              >
+            </p>
+          </section>
+
+          <section>
+            <h2>Copying the SSH key to clipboard <small>(Linux)</small></h2>
+            <p>Download and install <code>xclip</code> (If not install)</p>
+
+            <pre><code class="shell" data-trim="">
+              $ sudo pacman -S xclip
+            </code></pre>
+
+            <p>
+              Copies the contents of the <code>id_rsa.pub</code> file to
+              clipboard:
+            </p>
+
+            <pre><code class="shell" data-trim="">
+              $ xclip -sel clip < ~/.ssh/id_rsa.pub
+            </code></pre>
+
+            <p>
+              <small
+                ><em
+                  >If <code>xclip</code> isn't working, you can locate the
+                  hidden <code>.ssh</code> folder, open the file in your
+                  favorite text editor, and copy it to your clipboard.</em
+                ></small
+              >
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Adding a new SSH key to GitHub account</h2>
+          <ul>
+            <li>Navigate to the GitHub user settings page</li>
+            <li>
+              In the user settings sidebar, click
+              <strong>SSH and GPG keys</strong>
+            </li>
+            <li>Click <strong>New SSH key</strong></li>
+            <li>
+              In the <strong>Title</strong> field, add a descriptive label for
+              the new key
+            </li>
+            <li>Paste your key into the <strong>Key</strong> field</li>
+            <li>Click <strong>Add SSH key</strong></li>
+            <li>If prompted, confirm your GitHub password</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Done!</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/search/search.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+      // Also available as an ES module, see:
+      // https://revealjs.com/initialization/
+      Reveal.initialize({
+        controls: true,
+        center: true,
+        hash: true,
+        progress: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealZoom,
+          RevealNotes,
+          RevealSearch,
+          RevealMarkdown,
+          RevealHighlight,
+        ],
+      });
+    </script>
+  </body>
+</html>

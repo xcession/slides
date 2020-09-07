@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>npm: Cheat Sheet</title>
+
+    <meta name="description" content="npm: Cheat Sheet" />
+    <meta name="author" content="Tharawut Paripaiboon" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/rev.css" id="theme" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link
+      rel="stylesheet"
+      href="./plugin/highlight/monokai.css"
+      id="highlight-theme"
+    />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 624 242.67"
+            style="height: 180px;"
+          >
+            <polygon
+              points="0 0 624 0 624 208 312 208 312 242.67 173.33 242.67 173.33 208 0 208 0 0"
+              fill="#cb3837"
+            />
+            <polygon
+              points="34.67 173.33 104 173.33 104 69.33 138.67 69.33 138.67 173.33 173.33 173.33 173.33 34.67 34.67 34.67 34.67 173.33"
+              fill="#fff"
+            />
+            <path
+              d="M208,34.67V208h69.33V173.33h69.34V34.67Zm104,104H277.33V69.33H312Z"
+              fill="#fff"
+            />
+            <polygon
+              points="381.33 34.67 381.33 173.33 450.67 173.33 450.67 69.33 485.33 69.33 485.33 173.33 520 173.33 520 69.33 554.67 69.33 554.67 173.33 589.33 173.33 589.33 34.67 381.33 34.67"
+              fill="#fff"
+            />
+          </svg>
+          <h2>Cheat Sheet</h2>
+          <p>
+            <small>
+              Created by
+              <a href="https://reverievisuals.com">Reverie Visuals</a>
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Installing</h2>
+          <p>Install a package</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm install [package]
+          </code></pre>
+
+          <pre><code class="shell" data-trim="">
+            $ npm i [package]
+          </code></pre>
+
+          <p>Install <code>package.json</code> dependencies</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm install
+          </code></pre>
+
+          <pre><code class="shell" data-trim="">
+            $ npm i
+          </code></pre>
+
+          <h4>Flags</h4>
+          <p>
+            <small>
+              <code>-S</code> is the same as <code>--save</code>, and
+              <code>-D</code> is the same as <code>--save-dev</code>
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Listing</h2>
+          <p>List installed packages</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm list
+          </code></pre>
+
+          <p>List globally installed packages</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm list -g --depth=0
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>Uninstalling</h2>
+          <p>Uninstall a package</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm uninstall [package]
+          </code></pre>
+
+          <pre><code class="shell" data-trim="">
+            $ npm un [package]
+          </code></pre>
+
+          <p>Uninstall a global package</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm uninstall -g [package]
+          </code></pre>
+
+          <pre><code class="shell" data-trim="">
+            $ npm un -g [package]
+          </code></pre>
+        </section>
+
+        <section>
+          <h1>Add a new SSH key to GitHub account</h1>
+        </section>
+
+        <section>
+          <h1>Done!</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/search/search.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+      // Also available as an ES module, see:
+      // https://revealjs.com/initialization/
+      Reveal.initialize({
+        controls: true,
+        center: true,
+        hash: true,
+        progress: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealZoom,
+          RevealNotes,
+          RevealSearch,
+          RevealMarkdown,
+          RevealHighlight,
+        ],
+      });
+    </script>
+  </body>
+</html>

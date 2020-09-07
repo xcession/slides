@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Arch Linux: Installation</title>
+
+    <meta name="description" content="Arch Linux Installation" />
+    <meta name="author" content="Tharawut Paripaiboon" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/rev.css" id="theme" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link
+      rel="stylesheet"
+      href="./plugin/highlight/monokai.css"
+      id="highlight-theme"
+    />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <img
+            src="/slides/assets/logo-arch-linux.svg"
+            alt="arch linux logo"
+            style="
+              height: 180px;
+              margin: 0 auto 4rem auto;
+              background: transparent;
+            "
+            class="demo-logo"
+          />
+          <h2>Installation</h2>
+          <p>
+            <small>
+              Created by
+              <a href="https://reverievisuals.com">Reverie Visuals</a> and
+              <a href="https://github.com/hakimel/reveal.js/graphs/contributors"
+                >contributors</a
+              >
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Prerequisites</h2>
+          <ul>
+            <li>Bootable media</li>
+            <li>Internet connection (Ethernet)</li>
+            <li>Boot into the live environment</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Preparing</h1>
+        </section>
+
+        <section>
+          <h2>Verifying internet connection</h2>
+          <p>Verify connection with the <code>ping</code> command:</p>
+
+          <pre><code class="shell" data-trim="">
+						# ping -c 3 archlinux.org
+					</code></pre>
+
+          <pre><code class="shell" data-trim="">
+						> PING archlinux.org (138.201.81.199): 56 data bytes
+						> 64 bytes from 138.201.81.199: icmp_seq=0 ttl=47 time=224.669 ms
+						> 64 bytes from 138.201.81.199: icmp_seq=1 ttl=47 time=226.400 ms
+						> 64 bytes from 138.201.81.199: icmp_seq=2 ttl=47 time=224.150 ms
+						>
+						> --- archlinux.org ping
+						statistics ---
+						> 3 packets transmitted, 3 packets received, 0.0% packet loss
+						> round-trip min/avg/max/stddev = 224.150/225.073/226.400/0.962 ms
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>Set keyboard layout</h2>
+          <p>List available keyboard layout:</p>
+
+          <pre><code class="shell" data-trim="">
+						# ls -R /usr/share/kbd/keymaps
+					</code></pre>
+
+          <p>Set keyboard layout:</p>
+
+          <pre><code class="shell" data-trim="">
+						# loadkeys uk
+					</code></pre>
+
+          <p>
+            <small
+              ><em>(Default console keymap is <code>us</code>)</em></small
+            >
+          </p>
+        </section>
+
+        <section>
+          <h2>Verifying the boot mode</h2>
+          <p>To verify the UEFI:</p>
+          <pre><code class="shell" data-trim="">
+						# ls /sys/firmware/efi/efivars
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>Updating system clock</h2>
+          <p>To ensure the system clock is accurate:</p>
+          <pre><code class="shell" data-trim="">
+						# timedatectl set-ntp true
+					</code></pre>
+        </section>
+
+        <section>
+          <h1>Partition the disk</h1>
+        </section>
+
+        <section>
+          <section>
+            <h2>Listing all available devices <small>(fdisk)</small></h2>
+            <p>To list all available devices (using <code>fdisk</code>):</p>
+            <pre><code class="shell" data-trim="">
+							# fdisk -l
+						</code></pre>
+            <pre><code class="shell" data-trim="">
+							> Disk /dev/sda: 16 GiB, 17179869184 bytes, 33554432 sectors
+							> Disk model: Virtual Disk
+							> Units: sectors of 1 * 512 = 512 bytes
+							> Sector size (logical/physical): 512 bytes / 4096 bytes
+							> I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+							> Disklabel type: dos
+							> Disk identifier: 0x6d265be0
+							>
+							> Device    Boot  Start      End  Sectors  Size Id Type
+							> /dev/sda1        2048   616447   614400  300M 83 Linux
+						</code></pre>
+          </section>
+
+          <section>
+            <h2>Listing all available devices <small>(lsblk)</small></h2>
+            <p>To list all available devices (using <code>lsblk</code>):</p>
+            <pre><code class="shell" data-trim="">
+							# lsblk
+						</code></pre>
+            <pre><code class="shell" data-trim="">
+							> NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+							> loop0   7:0    0 549.2M  1 loop /run/archiso/sfs/airootfs
+							> sda     8:0    0    16G  0 disk
+							> L sda1 8:1    0   300M  0 part
+							> sr0    11:0    1   671M  0 rom  /run/archiso/bootmnt
+						</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Creating a partition table</h2>
+            <pre><code class="shell" data-trim="">
+							# fdisk /dev/sda
+						</code></pre>
+            <p>
+              Creating a new DOS partition table:
+              <small>(for Legacy systems)</small>
+            </p>
+            <pre><code data-trim="">
+							Command (m for help): o [Enter]
+						</code></pre>
+            <p>
+              Creating a new GPT partition table:
+              <small>(for UEFI systems)</small>
+            </p>
+            <pre><code data-trim="">
+							Command (m for help): g [Enter]
+						</code></pre>
+          </section>
+
+          <section>
+            <h2>Saving the partition table</h2>
+            <p>Write the partition table to disk and exit:</p>
+            <pre><code data-trim="">
+							Command (m for help): w [Enter]
+						</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h3>Partition scheme</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Mount</th>
+                <th>Device</th>
+                <th>Size</th>
+                <th>Type</th>
+                <th>Bootable</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>swap</code></td>
+                <td><code>/dev/sdX1</code></td>
+                <td>Ram amount (8GB)</td>
+                <td>Linux swap</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><code>/boot</code></td>
+                <td><code>/dev/sdX2</code></td>
+                <td>300MB</td>
+                <td>
+                  Linux filesystem<br /><small>(EXT2 for Legacy systems)</small
+                  ><br /><small>(FAT for UEFI systems</small>
+                </td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><code>/</code></td>
+                <td><code>/dev/sdX3</code></td>
+                <td>32GB</td>
+                <td>Linux filesystem<br /><small>(EXT4)</small></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><code>/home</code></td>
+                <td><code>/dev/sdX4</code></td>
+                <td>Available space</td>
+                <td>Linux filesystem<br /><small>(EXT4)</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/search/search.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+      // Also available as an ES module, see:
+      // https://revealjs.com/initialization/
+      Reveal.initialize({
+        controls: true,
+        center: true,
+        hash: true,
+        progress: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealZoom,
+          RevealNotes,
+          RevealSearch,
+          RevealMarkdown,
+          RevealHighlight,
+        ],
+      });
+    </script>
+  </body>
+</html>
