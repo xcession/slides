@@ -134,7 +134,66 @@
         </section>
 
         <section>
-          <h1>Add a new SSH key to GitHub account</h1>
+          <section>
+            <h2>Updating</h2>
+            <p>List outdated packages</p>
+
+            <pre><code class="shell" data-trim="">
+              $ npm outdated
+            </code></pre>
+
+            <p>List outdated global packages</p>
+
+            <pre><code class="shell" data-trim="">
+              $ npm outdated -g --depth=0
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Updating</h2>
+            <p>Update a package</p>
+
+            <pre><code class="shell" data-trim="">
+              $ npm update [package]
+            </code></pre>
+
+            <pre><code class="shell" data-trim="">
+              $ npm up [package]
+            </code></pre>
+
+            <p>Update a global package</p>
+
+            <pre><code class="shell" data-trim="">
+              $ npm update -g [package]
+            </code></pre>
+
+            <pre><code class="shell" data-trim="">
+              $ npm up -g [package]
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>Upgrading <code>npm</code></h2>
+
+          <pre><code class="shell" data-trim="">
+            $ npm install -g npm
+          </code></pre>
+
+          <p>Upgrade <code>npm</code> on Windows</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm-windows-upgrade
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Listing scripts</h2>
+          <p>List available scripts to run</p>
+
+          <pre><code class="shell" data-trim="">
+            $ npm run
+          </code></pre>
         </section>
 
         <section>
