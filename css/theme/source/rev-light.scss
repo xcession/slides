@@ -16,19 +16,45 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 // Override theme settings (see ../template/settings.scss)
-$backgroundColor: #111;
+$backgroundColor: #f0f0f0;
 
-$mainFont: "Open Sans", sans-serif;
-// $mainColor: #000;
+// $mainFont: "Open Sans", sans-serif;
+$mainColor: #403f53;
+
+#logo {
+  fill: $mainColor;
+  height: $heading1Size;
+}
+
+$mainFontSize: 42px;
+
 $headingFont: "Montserrat", Impact, sans-serif;
-// $headingColor: #000;=
+$headingColor: $mainColor;
 $headingLetterSpacing: -0.03em;
 $headingTextShadow: none;
 $headingTextTransform: none;
+
 $codeFont: "IBM Plex Mono";
-$linkColor: #e7ad52;
-$linkColorHover: lighten($linkColor, 20%);
-$selectionBackgroundColor: #e7ad52;
+$linkColor: #ff869a;
+$linkColorHover: lighten($linkColor, 15%);
+$selectionBackgroundColor: lighten($linkColor, 25%);
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1em;
+
+section.has-dark-background {
+  &,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #fff;
+  }
+}
 
 // Theme template ------------------------------
 @import "../template/theme";
